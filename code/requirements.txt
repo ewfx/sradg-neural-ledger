@@ -3,4 +3,8 @@ djangorestframework
 pandas
 numpy
 scikit-learn
+transformers
+torch
+openpyxl
 openai
+langchain
