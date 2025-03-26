@@ -1,0 +1,26 @@
+  {
+    "reconciliation_cases": [
+      {
+        "case_name": "GL vs IHub Reconciliation",
+        "key_columns": ["Company", "Account", "AU", "Currency"],
+        "criteria_columns": ["GL Balance", "IHub Balance"],
+        "historical_columns": ["Account", "Primary Account", "Secondary Account"],
+        "date_columns": ["As of Date"]
+      },
+      {
+        "case_name": "Catalyst vs Impact Reconciliation",
+        "key_columns": ["Trade ID"],
+        "criteria_columns": [
+          "Inventory Code",
+          "CUSIP",
+          "Trade Date",
+          "Settlement Date",
+          "Buy or Sell",
+          "Price",
+          "Quantity"
+        ],
+        "historical_columns": ["CUSIP", "Inventory Code"],
+        "date_columns": ["Recon Date"]
+      }
+    ]
+  }
