@@ -1,0 +1,113 @@
+# Project Setup Guide
+
+## 1. Set Up Virtual Environment
+
+### On Windows (cmd / PowerShell):
+```sh
+python -m venv myenv
+myenv\Scripts\activate
+```
+
+### On macOS / Linux:
+```sh
+python3 -m venv myenv
+source myenv/bin/activate
+```
+
+## 2. Install Requirements
+```sh
+pip install -r requirements.txt
+```
+
+## 3. Configure `config.json`
+Create a `config.json` file in the `config` directory with the following content:
+
+```json
+{
+    "reconciliation_cases": [
+        {
+            "case_name": "GL vs IHub Reconciliation",
+            "key_columns": ["Company", "Account", "AU", "Currency"],
+            "criteria_columns": ["GL Balance", "IHub Balance"],
+            "historical_columns": ["Account", "Primary Account", "Secondary Account"],
+            "date_columns": ["As of Date"]
+        },
+        {
+            "case_name": "Catalyst vs Impact Reconciliation",
+            "key_columns": ["Trade ID"],
+            "criteria_columns": [
+                "Inventory Code",
+                "CUSIP",
+                "Trade Date",
+                "Settlement Date",
+                "Buy or Sell",
+                "Price",
+                "Quantity"
+            ],
+            "historical_columns": ["CUSIP", "Inventory Code"],
+            "date_columns": ["Recon Date"]
+        }
+    ]
+}
+```
+
+## 4. Running the Project
+```sh
+python manage.py runserver
+```
+
+## 5. JIRA Configuration
+Create a `jira_config.json` file in the `config` directory:
+
+```json
+{
+    "jira_url": "https://your-jira-instance.atlassian.net",
+    "username": "your-email@example.com",
+    "api_token": "your-jira-api-token",
+    "project_key": "YOUR_PROJECT_KEY"
+}
+```
+
+## 6. Sample Input File Format (CSV)
+```csv
+Company,Account,AU,Currency,GL Balance,IHub Balance,As of Date,Primary Account,Secondary Account
+ABC,1001,AU1,USD,50000,60000,2025-03-01,Primary1,Secondary1
+XYZ,1002,AU2,EUR,70000,80000,2025-03-01,Primary2,Secondary2
+```
+
+## 7. Expected Output (JSON)
+```json
+{
+    "anomalies": [
+        {
+            "row": {
+                "Company": "ABC",
+                "Account": "1001",
+                "AU": "AU1",
+                "Currency": "USD",
+                "GL Balance": 50000,
+                "IHub Balance": 60000,
+                "As of Date": "2025-03-01",
+                "Primary Account": "Primary1",
+                "Secondary Account": "Secondary1"
+            },
+            "anomaly": {
+                "case": "GL vs IHub Reconciliation",
+                "keys": ["Company", "Account", "AU", "Currency"],
+                "comment": "Anomaly detected: Significant deviation from historical trend - Confidence 0.75."
+            }
+        }
+    ]
+}
+```
+
+## 8. Logging and Debugging
+If facing import issues, ensure `__init__.py` exists in all subdirectories. Also, check:
+```sh
+pip list
+```
+If dependencies are missing, reinstall them using:
+```sh
+pip install -r requirements.txt
+```
+

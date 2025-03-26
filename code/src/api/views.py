@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from data.file_handler import process_uploaded_file
+from file_handler import process_uploaded_file
 from anomaly_detection.anomaly_detector import detect_anomalies
 import json
 import logging
